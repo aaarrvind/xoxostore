@@ -46,12 +46,11 @@ redis_client = redis.Redis.from_url(
     socket_connect_timeout=30
 )
 
-# Configure Flask-Limiter with Redis storage
+# Configure Flask-Limiter
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
     storage_uri=os.getenv('REDIS_URL', 'redis://localhost:6379/0'),
-    storage_options={"socket_connect_timeout": 30},
     default_limits=["200 per day", "50 per hour"]
 )
 
