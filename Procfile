@@ -1,1 +1,1 @@
-web: gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 300 --worker-class gevent --worker-connections 1000 --access-logfile - --error-logfile - --log-level debug --preload --max-requests 1000 --max-requests-jitter 50 application:app 
+web: gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 600 --worker-class sync --access-logfile - --error-logfile - --log-level debug application:app 

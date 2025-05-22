@@ -38,43 +38,49 @@ migrate = Migrate(app, db)
 # Initialize Flask-Mail
 mail = Mail(app)
 
-# Configure Redis for rate limiting
-redis_url = os.getenv('REDIS_URL')
-redis_client = None
-
-if redis_url:
-    try:
-        redis_client = redis.Redis.from_url(
-            redis_url,
-            decode_responses=True,
-            socket_connect_timeout=30,
-            socket_timeout=30,
-            retry_on_timeout=True,
-            health_check_interval=30,
-            ssl=True  # Enable SSL for Redis Cloud
-        )
-        # Test the connection
-        redis_client.ping()
-        app.logger.info("Successfully connected to Redis Cloud")
-    except Exception as e:
-        app.logger.error(f"Failed to connect to Redis Cloud: {str(e)}")
-        redis_client = None
-else:
-    app.logger.warning("No REDIS_URL provided, using memory storage")
-
-# Configure Flask-Limiter
+# Configure Flask-Limiter with memory storage initially
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
-    storage_uri=redis_url if redis_client else "memory://",
-    default_limits=["200 per day", "50 per hour"],
-    storage_options={
-        "socket_connect_timeout": 30,
-        "socket_timeout": 30,
-        "retry_on_timeout": True,
-        "ssl": True
-    } if redis_client else {}
+    default_limits=["200 per day", "50 per hour"]
 )
+
+# Initialize Redis after app creation
+def init_redis():
+    redis_url = os.getenv('REDIS_URL')
+    if redis_url:
+        try:
+            redis_client = redis.Redis.from_url(
+                redis_url,
+                decode_responses=True,
+                socket_connect_timeout=30,
+                socket_timeout=30,
+                retry_on_timeout=True,
+                health_check_interval=30,
+                ssl=True
+            )
+            # Test the connection
+            redis_client.ping()
+            app.logger.info("Successfully connected to Redis Cloud")
+            
+            # Update limiter to use Redis
+            limiter.storage_uri = redis_url
+            limiter.storage_options = {
+                "socket_connect_timeout": 30,
+                "socket_timeout": 30,
+                "retry_on_timeout": True,
+                "ssl": True
+            }
+            return redis_client
+        except Exception as e:
+            app.logger.error(f"Failed to connect to Redis Cloud: {str(e)}")
+            return None
+    else:
+        app.logger.warning("No REDIS_URL provided, using memory storage")
+        return None
+
+# Initialize Redis
+redis_client = init_redis()
 
 # Load configuration from environment variables
 app.config["RATELIMIT_STORAGE_URL"] = os.getenv("REDIS_URL", "memory://")
