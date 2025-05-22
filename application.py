@@ -16,8 +16,6 @@ from flask_limiter.util import get_remote_address
 import os
 from models import Customer, Order, db, Product, ProductImage
 from dotenv import load_dotenv
-
-load_dotenv()
 from flask_login import login_required
 from flask_migrate import Migrate
 from datetime import datetime, timedelta, timezone
@@ -29,6 +27,10 @@ from email_utils import (
 )
 from flask_mail import Mail
 from flask_mail import Message
+import redis
+from flask_limiter.storage import RedisStorage
+
+load_dotenv()
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
@@ -37,8 +39,21 @@ migrate = Migrate(app, db)
 # Initialize Flask-Mail
 mail = Mail(app)
 
-# Initialize rate limiter
-limiter = Limiter(app=app, key_func=get_remote_address, default_limits=["200 per day"])
+# Configure Redis for rate limiting
+redis_client = redis.Redis.from_url(
+    os.getenv('REDIS_URL', 'redis://localhost:6379/0'),
+    decode_responses=True,
+    socket_connect_timeout=30
+)
+
+# Configure Flask-Limiter with Redis storage
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    storage_uri=os.getenv('REDIS_URL', 'redis://localhost:6379/0'),
+    storage_options={"socket_connect_timeout": 30},
+    default_limits=["200 per day", "50 per hour"]
+)
 
 # Load configuration from environment variables
 app.config["RATELIMIT_STORAGE_URL"] = os.getenv("REDIS_URL", "memory://")

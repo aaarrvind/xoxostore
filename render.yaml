@@ -3,7 +3,7 @@ services:
     name: xoxo-store
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 300 --worker-class gevent --worker-connections 1000 --access-logfile - --error-logfile - --log-level debug application:app
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 300 --worker-class eventlet --worker-connections 1000 --access-logfile - --error-logfile - --log-level debug --preload application:app
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
@@ -27,6 +27,16 @@ services:
         value: "admin@100%123@"
       - key: PORT
         value: 10000
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: xoxo-store-redis
+          property: connectionString
     healthCheckPath: /
     autoDeploy: true
-    plan: free 
+    plan: free
+
+  - type: redis
+    name: xoxo-store-redis
+    plan: free
+    maxmemoryPolicy: noeviction 
