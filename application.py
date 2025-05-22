@@ -42,30 +42,38 @@ mail = Mail(app)
 redis_url = os.getenv('REDIS_URL')
 redis_client = None
 
-try:
-    if redis_url:
+if redis_url:
+    try:
         redis_client = redis.Redis.from_url(
             redis_url,
             decode_responses=True,
             socket_connect_timeout=30,
             socket_timeout=30,
-            retry_on_timeout=True
+            retry_on_timeout=True,
+            health_check_interval=30,
+            ssl=True  # Enable SSL for Redis Cloud
         )
         # Test the connection
         redis_client.ping()
-        app.logger.info("Successfully connected to Redis")
-    else:
-        app.logger.warning("No REDIS_URL provided, using memory storage")
-except Exception as e:
-    app.logger.error(f"Failed to connect to Redis: {str(e)}")
-    redis_client = None
+        app.logger.info("Successfully connected to Redis Cloud")
+    except Exception as e:
+        app.logger.error(f"Failed to connect to Redis Cloud: {str(e)}")
+        redis_client = None
+else:
+    app.logger.warning("No REDIS_URL provided, using memory storage")
 
 # Configure Flask-Limiter
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
     storage_uri=redis_url if redis_client else "memory://",
-    default_limits=["200 per day", "50 per hour"]
+    default_limits=["200 per day", "50 per hour"],
+    storage_options={
+        "socket_connect_timeout": 30,
+        "socket_timeout": 30,
+        "retry_on_timeout": True,
+        "ssl": True
+    } if redis_client else {}
 )
 
 # Load configuration from environment variables
