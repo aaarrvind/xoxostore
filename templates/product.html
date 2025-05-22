@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} - WABStoreClone{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+     <!-- Display Flash Messages -->
+     {% for message in get_flashed_messages(with_categories=true) %}
+     <div class="alert alert-{{ message[0] }} alert-dismissible fade show" role="alert">
+         {{ message[1] }}
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+     </div>
+    {% endfor %}
+    <div class="row">
+        <!-- Product Images Carousel -->
+        <div class="col-md-6">
+            {% if product.images %}
+                <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for image in product.images %}
+                            <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                <img src="{{ url_for('static', filename='images/' + image.image_filename) }}" class="d-block w-100 product-detail-image" alt="{{ product.name }} Image">
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            {% else %}
+                <div class="bg-dark-grey text-center product-detail-image d-flex align-items-center justify-content-center">
+                    <p class="text-beige m-0">No Images Available</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Product Details -->
+        <div class="col-md-6">
+            <h1>{{ product.name }}</h1>
+            <p class="lead">${{ "%.2f"|format(product.price) }}</p>
+            <p>{{ product.description or 'No description available.' }}</p>
+
+            <!-- Stock Display -->
+            <div class="mb-3">
+                <label for="size" class="form-label">Select Size:</label>
+                <select class="form-select bg-dark-grey text-beige border-dark-grey" id="size" name="size" required>
+                    <option value="" disabled selected>Select a size</option>
+                    {% if product.stock_s > 0 %}
+                    <option value="S" data-stock="{{ product.stock_s }}">Small</option>
+                    {% endif %}
+                    {% if product.stock_m >0 %}
+                    <option value="M" data-stock="{{ product.stock_m }}">Medium </option>
+                    {% endif %}
+                    {% if product.stock_l >0 %}
+                    <option value="L" data-stock="{{ product.stock_l }}">Large</option>
+                    {% endif %}
+                    {% if product.stock_xl >0 %}
+                    <option value="XL" data-stock="{{ product.stock_xl }}">Extra Large</option>
+                    {% endif %}
+                </select>
+            </div>
+
+            <!-- Quantity Selector -->
+            <div class="mb-3">
+                <label for="quantity" class="form-label">Quantity:</label>
+                <div class="input-group quantity-selector">
+                    <button type="button" class="btn btn-outline-dark-grey" onclick="decrementQuantity()">-</button>
+                    <input type="number" class="form-control bg-dark-grey text-beige border-dark-grey text-center" id="quantity" name="quantity" value="1" min="1" readonly>
+                    <button type="button" class="btn btn-outline-dark-grey" onclick="incrementQuantity()">+</button>
+                </div>
+            </div>
+
+            <!-- Add to Cart Form -->
+            <form method="POST" action="{{ url_for('add_to_cart', product_id=product.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" id="form_quantity" name="quantity" value="1">
+                <input type="hidden" id="form_size" name="size">
+                <button type="submit" class="btn btn-dark-grey w-100">Add to Cart</button>
+            </form>
+
+            {% if error %}
+                <div class="alert alert-danger mt-3" role="alert">
+                    {{ error }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+/* Ensure consistent image size in the carousel */
+.carousel-inner {
+    height: 400px;
+    background-color: var(--dark-grey);
+}
+
+.product-detail-image {
+    height: 400px;
+    width: 100%;
+    object-fit: contain;
+}
+
+/* Style the carousel arrows for better visibility */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 50px;
+    height: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+    width: 30px;
+    height: 30px;
+}
+
+/* Optional: Hover effect for arrows */
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+</style>
+
+<script>
+function incrementQuantity() {
+    let quantityInput = document.getElementById('quantity');
+    let formQuantityInput = document.getElementById('form_quantity');
+    let sizeSelect = document.getElementById('size');
+    let selectedSize = sizeSelect.value;
+    let stock = parseInt(sizeSelect.options[sizeSelect.selectedIndex].getAttribute('data-stock')) || 0;
+    let currentQuantity = parseInt(quantityInput.value);
+
+    if (selectedSize === "") {
+        alert("Please select a size first.");
+        return;
+    }
+
+    if (currentQuantity < stock) {
+        quantityInput.value = currentQuantity + 1;
+        formQuantityInput.value = quantityInput.value;
+    } else {
+        alert(`Only ${stock} items available for size ${selectedSize}.`);
+    }
+}
+
+function decrementQuantity() {
+    let quantityInput = document.getElementById('quantity');
+    let formQuantityInput = document.getElementById('form_quantity');
+    let currentQuantity = parseInt(quantityInput.value);
+
+    if (currentQuantity > 1) {
+        quantityInput.value = currentQuantity - 1;
+        formQuantityInput.value = quantityInput.value;
+    }
+}
+
+document.getElementById('size').addEventListener('change', function() {
+    document.getElementById('form_size').value = this.value;
+    document.getElementById('quantity').value = 1;
+    document.getElementById('form_quantity').value = 1;
+});
+</script>
+{% endblock %}

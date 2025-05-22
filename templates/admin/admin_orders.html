@@ -1,0 +1,136 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}Admin Orders - XOXO By SLOG{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-4">Manage Orders</h1>
+
+    <!-- Search and Filter Form -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" class="row g-3">
+                <div class="col-md-2">
+                    <input type="number" class="form-control" name="search_id" placeholder="Order ID" value="{{ search_id or '' }}">
+                </div>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" name="search_customer" placeholder="Customer Name/Email" value="{{ search_customer or '' }}">
+                </div>
+                <div class="col-md-2">
+                    <input type="date" class="form-control" name="start_date" value="{{ start_date or '' }}">
+                </div>
+                <div class="col-md-2">
+                    <input type="date" class="form-control" name="end_date" value="{{ end_date or '' }}">
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control" name="status">
+                        <option value="">All Status</option>
+                        <option value="Pending" {% if status == 'Pending' %}selected{% endif %}>Pending</option>
+                        <option value="Completed" {% if status == 'Completed' %}selected{% endif %}>Completed</option>
+                        <option value="Failed" {% if status == 'Failed' %}selected{% endif %}>Failed</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control" name="payment_method">
+                        <option value="">All Payment Methods</option>
+                        <option value="COD" {% if payment_method == 'COD' %}selected{% endif %}>COD</option>
+                        <option value="Online" {% if payment_method == 'Online' %}selected{% endif %}>Online</option>
+                    </select>
+                </div>
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                    <a href="{{ url_for('admin_orders') }}" class="btn btn-secondary">Clear</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Orders Table -->
+    <div class="table-responsive">
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>Payment Method</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detail in order_details %}
+                <tr>
+                    <td>{{ detail.order.id }}</td>
+                    <td>
+                        {{ detail.customer_name }}<br>
+                        <small>{{ detail.customer_email }}</small>
+                    </td>
+                    <td>{{ detail.order.order_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>₹{{ "%.2f"|format(detail.order.total_price) }}</td>
+                    <td>{{ detail.order.payment_method }}</td>
+                    <td>
+                        <span class="badge {% if detail.order.payment_status == 'Pending' %}bg-warning{% elif detail.order.payment_status == 'Completed' %}bg-success{% elif detail.order.payment_status == 'Failed' %}bg-danger{% else %}bg-secondary{% endif %}">
+                            {{ detail.order.payment_status }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('admin_order_detail', order_id=detail.order.id) }}" class="btn btn-info btn-sm">View</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" class="text-center">No orders found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if orders.pages > 1 %}
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if orders.has_prev %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('admin_orders', page=orders.prev_num, search_id=search_id, search_customer=search_customer, start_date=start_date, end_date=end_date, status=status, payment_method=payment_method) }}">Previous</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">Previous</span>
+            </li>
+            {% endif %}
+
+            {% for page_num in orders.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
+                {% if page_num %}
+                    {% if page_num == orders.page %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ page_num }}</span>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('admin_orders', page=page_num, search_id=search_id, search_customer=search_customer, start_date=start_date, end_date=end_date, status=status, payment_method=payment_method) }}">{{ page_num }}</a>
+                    </li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if orders.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('admin_orders', page=orders.next_num, search_id=search_id, search_customer=search_customer, start_date=start_date, end_date=end_date, status=status, payment_method=payment_method) }}">Next</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">Next</span>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

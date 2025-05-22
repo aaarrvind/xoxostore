@@ -1,0 +1,194 @@
+/* Beige and Dark Grey Color Scheme */
+:root {
+    --beige: #DDD0C8;
+    --dark-grey: #323232;
+    --primary-color: #000000; /* Black */
+    --secondary-color: #FFFFFF; /* White */
+    --accent-color: #C0C0C0; /* Silver */
+    --mechanical-very-dark-gray: #141619;
+    --mechanical-dark-gray: #2C2E3A;
+    --mechanical-navy: #050A44;
+    --mechanical-bright-blue: #0A21C0;
+    --mechanical-light-gray: #B3B4BD;
+    --vintage-light-beige: #FBE9D0;
+    --vintage-dark-teal: #244855;
+    --vintage-red-orange: #E64833;
+    --vintage-brown: #874F41;
+    --vintage-muted-teal: #90AEAD;
+}
+
+/* Global Styles */
+body {
+    background-color: var(--beige);
+    color: var(--dark-grey);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--dark-grey);
+    font-weight: 600;
+}
+
+/* Navbar */
+.navbar-custom {
+    background-color: var(--dark-grey);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+}
+.navbar-brand {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--beige) !important;
+    transition: color 0.3s ease;
+}
+.navbar-brand:hover {
+    color: #c0b3ab !important; /* Slightly darker beige for hover */
+}
+.nav-link {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: var(--beige) !important;
+    position: relative;
+    transition: color 0.3s ease;
+    padding: 0.5rem 1rem;
+}
+.nav-link:hover {
+    color: #c0b3ab !important;
+}
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--beige);
+    transition: width 0.3s ease;
+}
+.nav-link:hover::after {
+    width: 100%;
+}
+.dropdown-menu {
+    background-color: var(--dark-grey);
+    border: 1px solid var(--dark-grey);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.dropdown-item {
+    color: var(--beige);
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.dropdown-item:hover {
+    background-color: var(--beige);
+    color: var(--dark-grey);
+}
+
+/* Hamburger Menu */
+.navbar-toggler {
+    border: none;
+    color: var(--beige);
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+.navbar-toggler:hover {
+    color: #c0b3ab;
+}
+
+/* Cart Icon and Badge */
+.cart-icon {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.cart-icon svg {
+    stroke: var(--beige);
+    width: 24px;
+    height: 24px;
+    transition: stroke 0.3s ease;
+}
+.cart-icon:hover svg {
+    stroke: #c0b3ab;
+}
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--dark-grey);
+    color: var(--beige);
+    font-size: 0.75rem;
+    font-weight: 700;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Background Classes */
+.bg-beige {
+    background-color: var(--beige) !important;
+}
+.bg-dark-grey {
+    background-color: var(--dark-grey) !important;
+}
+
+/* Text Classes */
+.text-beige {
+    color: var(--beige) !important;
+}
+.text-dark-grey {
+    color: var(--dark-grey) !important;
+}
+
+/* Border Classes */
+.border-dark-grey {
+    border-color: var(--dark-grey) !important;
+}
+
+/* Button Classes */
+.btn-dark-grey {
+    background-color: var(--dark-grey);
+    border-color: var(--dark-grey);
+    color: var(--beige);
+}
+.btn-dark-grey:hover {
+    background-color: #2a2a2a; /* Slightly darker grey for hover */
+    border-color: #2a2a2a;
+    color: var(--beige);
+}
+.btn-outline-dark-grey {
+    border-color: var(--dark-grey);
+    color: var(--dark-grey);
+}
+.btn-outline-dark-grey:hover {
+    background-color: var(--dark-grey);
+    color: var(--beige);
+}
+
+/* Alerts */
+.alert-success {
+    background-color: #e5d9d2; /* Slightly darker beige */
+    color: var(--dark-grey);
+}
+.alert-danger, .alert-warning {
+    background-color: #d1c4bc; /* Darker beige for warnings */
+    color: var(--dark-grey);
+}
+
+/* Footer */
+footer {
+    background-color: var(--dark-grey);
+}
+footer p, footer a {
+    color: var(--beige);
+}
+footer a:hover {
+    color: #c0b3ab;
+}

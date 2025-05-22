@@ -1,0 +1,35 @@
+<!-- templates/order_success.html -->
+{% extends "base.html" %}
+{% block title %}Order Success - XOXO By SLOG{% endblock %}
+{% block content %}
+<div class="container py-5 text-center">
+    <h1 class="mb-4 text-success">Thank you for your order!</h1>
+    {% for message in get_flashed_messages(with_categories=true) %}
+        <div class="alert alert-{{ message[0] }}" role="alert">{{ message[1] }}</div>
+    {% endfor %}
+    <h2 class="mb-4">Order Summary:</h2>
+    <div class="card bg-dark border-secondary text-white mx-auto mb-4" style="max-width: 500px;">
+        <div class="card-body">
+            <p class="card-text">Items: {{ order.items }}</p>
+            <p class="card-text">Payment Method: {{ order.payment_method }}</p>
+            {% if order.payment_method == 'COD' %}
+                <div class="payment-breakdown mt-3">
+                    <h5>Payment Details:</h5>
+                    <p class="mb-2">Advance Payment: ₹{{ "%.2f"|format(order.advance_payment) }} ({{ order.advance_payment_status }})</p>
+                    <p class="mb-2">Remaining Amount: ₹{{ "%.2f"|format(order.remaining_amount) }} (To be paid at delivery)</p>
+                </div>
+            {% else %}
+                <p class="card-text">Payment Status: {{ order.payment_status }}</p>
+            {% endif %}
+            <h5 class="card-title mt-4">Delivery Address:</h5>
+            <p class="card-text">
+                {{ order.delivery_address }}<br>
+                {{ order.delivery_city }}, {{ order.delivery_state }} - {{ order.delivery_pincode }}<br>
+                Phone: {{ order.delivery_phone }}
+            </p>
+            <h5 class="card-title mt-4">Total Amount: <span class="text-success">₹{{ "%.2f"|format(order.total_price) }}</span></h5>
+        </div>
+    </div>
+    <a href="{{ url_for('home') }}" class="btn btn-outline-light">Back to Home</a>
+</div>
+{% endblock %}

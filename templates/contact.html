@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - XOXO By SLOG{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto text-center">
+            <h1 class="mb-4">Contact Us</h1>
+            <p class="lead mb-5">We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="mb-4">Get in Touch</h2>
+                    <div class="mb-4">
+                        <h5><i class="fas fa-map-marker-alt me-2"></i> Address</h5>
+                        <p>123 Fashion Street<br>New York, NY 10001<br>United States</p>
+                    </div>
+                    <div class="mb-4">
+                        <h5><i class="fas fa-phone me-2"></i> Phone</h5>
+                        <p>+1 (555) 123-4567</p>
+                    </div>
+                    <div class="mb-4">
+                        <h5><i class="fas fa-envelope me-2"></i> Email</h5>
+                        <p>info@xoxobyslog.com</p>
+                    </div>
+                    <div class="mb-4">
+                        <h5><i class="fas fa-clock me-2"></i> Business Hours</h5>
+                        <p>Monday - Friday: 9:00 AM - 6:00 PM<br>Saturday: 10:00 AM - 4:00 PM<br>Sunday: Closed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="mb-4">Send us a Message</h2>
+                    
+                    {% for message in get_flashed_messages(with_categories=true) %}
+                    <div class="alert alert-{{ message[0] }}" role="alert">
+                        {{ message[1] }}
+                    </div>
+                    {% endfor %}
+
+                    <form method="POST" action="{{ url_for('contact') }}">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Subject</label>
+                            <input type="text" class="form-control" id="subject" name="subject" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

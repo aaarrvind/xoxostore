@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: xoxo-store
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 120 --access-logfile - --error-logfile - application:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: FLASK_APP
+        value: application.py
+      - key: FLASK_ENV
+        value: production
+      - key: DATABASE_URL
+        value: "postgresql://postgres:KlaMnfcEGZ9r5B08kco8@xoxostore-instance.ck38woms2iof.us-east-1.rds.amazonaws.com:5432/xoxostore_db"
+      - key: SECRET_KEY
+        value: "04b0eff9ec689af63ed38416320e562ff88c9e73b34b0de72213f5bbb048de67"
+      - key: MAIL_USERNAME
+        value: "xoxobyslog1@gmail.com"
+      - key: MAIL_PASSWORD
+        value: "ohmg cxih hmyg gxoh"
+      - key: MAIL_DEFAULT_SENDER
+        value: "xoxobyslog1@gmail.com"
+      - key: ADMIN_EMAIL
+        value: "admin@example.com"
+      - key: ADMIN_PASSWORD
+        value: "admin@100%123@"
+      - key: PORT
+        value: 10000
+    healthCheckPath: /
+    autoDeploy: true 

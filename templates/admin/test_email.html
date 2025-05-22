@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Test Email Configuration - XOXO By SLOG{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Email Configuration Test</h4>
+                </div>
+                <div class="card-body">
+                    <h5 class="mb-4">Environment Variables Status:</h5>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                {% for key, value in config_status.items() %}
+                                <tr>
+                                    <td><strong>{{ key }}</strong></td>
+                                    <td>{{ value }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <h5 class="mb-4">Test Email Status:</h5>
+                    {% if email_sent %}
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle"></i> Test email sent successfully to {{ test_email }}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-circle"></i> Failed to send test email to {{ test_email }}
+                        </div>
+                    {% endif %}
+
+                    <div class="mt-4">
+                        <h5>Next Steps:</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <i class="fas fa-info-circle text-info"></i>
+                                Check your email inbox for the test email
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-info-circle text-info"></i>
+                                If you don't receive the email, check your spam folder
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-info-circle text-info"></i>
+                                Verify that your Gmail account has "Less secure app access" enabled or use an App Password
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-4">
+                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+                        <a href="{{ url_for('test_email_config') }}" class="btn btn-primary">Test Again</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,112 @@
+{% extends "admin/admin_base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Edit Product</h2>
+
+    <!-- Display flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Main Form for Editing Product -->
+    <form method="POST" enctype="multipart/form-data" id="editProductForm">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <!-- Product Details -->
+        <div class="mb-3">
+            <label for="name" class="form-label">Product Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ product.name }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="price" class="form-label">Price ($)</label>
+            <input type="number" step="0.01" class="form-control" id="price" name="price" value="{{ product.price }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3" required>{{ product.description }}</textarea>
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="is_featured" name="is_featured" {% if product.is_featured %}checked{% endif %}>
+            <label class="form-check-label" for="is_featured">Featured Product</label>
+        </div>
+
+        <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select class="form-control" id="category" name="category" required>
+                <option value="tshirt" {% if product.category == 'tshirt' %}selected{% endif %}>T-Shirt</option>
+                <option value="shirt" {% if product.category == 'shirt' %}selected{% endif %}>Shirt</option>
+                <option value="accessories" {% if product.category == 'accessories' %}selected{% endif %}>Accessories</option>
+                <option value="jacket" {% if product.category == 'jacket' %}selected{% endif %}>Jacket</option>
+            </select>
+        </div>
+
+        <!-- Stock Levels -->
+        <div class="row">
+        <div class="col-md-3 mb-3">
+            <label for="stock_s" class="form-label">Stock (Size S)</label>
+            <input type="number" class="form-control" id="stock_s" name="stock_s" value="{{ product.stock_s }}" min="0" required>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label for="stock_m" class="form-label">Stock (Size M)</label>
+            <input type="number" class="form-control" id="stock_m" name="stock_m" value="{{ product.stock_m }}" min="0" required>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label for="stock_l" class="form-label">Stock (Size L)</label>
+            <input type="number" class="form-control" id="stock_l" name="stock_l" value="{{ product.stock_l }}" min="0" required>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label for="stock_xl" class="form-label">Stock (Size XL)</label>
+            <input type="number" class="form-control" id="stock_xl" name="stock_xl" value="{{ product.stock_xl }}" min="0" required>
+        </div>
+    </div>
+        <!-- Image Upload -->
+        <div class="mb-3">
+            <label for="images" class="form-label">Add New Images</label>
+            <input type="file" class="form-control" id="images" name="images" multiple accept="image/*">
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary" id="updateProductButton">Update Product</button>
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+
+    <!-- Display Existing Images and Delete Forms (Outside Main Form) -->
+    {% if product.images %}
+        <h5 class="mt-4">Existing Images</h5>
+        <div class="row">
+            {% for image in product.images %}
+                <div class="col-md-3 mb-3">
+                    <img src="{{ url_for('static', filename='images/' + image.image_filename) }}" class="img-thumbnail" alt="{{ image.image_filename }}" style="max-width: 100%;">
+                    <form method="POST" action="{{ url_for('delete_image', image_id=image.id) }}" onsubmit="return confirm('Are you sure you want to delete this image?');" class="mt-2">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete Image</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+<!-- JavaScript for Debugging -->
+<script>
+    document.getElementById('updateProductButton').addEventListener('click', function(event) {
+        console.log('Update Product button clicked');
+        // Uncomment the line below to prevent form submission for debugging
+        // event.preventDefault();
+    });
+
+    document.getElementById('editProductForm').addEventListener('submit', function(event) {
+        console.log('Form submission triggered');
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,414 @@
+/* Reset and Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #FFFFFF;
+    color: #1A1A1A;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 600;
+    color: #1A1A1A;
+}
+
+h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+}
+
+p, a, td, th {
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+a {
+    color: #1A3CFF;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #1532CC;
+}
+
+/* Variables for Color Scheme */
+:root {
+    --primary-color: #000000; /* Black */
+    --secondary-color: #FFFFFF; /* White */
+    --accent-color: #C0C0C0; /* Silver */
+    
+}
+
+/* Navbar */
+.navbar {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    background-color: #FFFFFF;
+}
+
+.navbar-brand {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1A1A1A;
+}
+
+.nav-link {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    color: #1A1A1A;
+}
+
+.nav-link:hover {
+    color: #1532CC;
+}
+
+.hamburger span {
+    color: var(--secondary-color);
+    font-size: 24px;
+}
+
+.btn-outline-primary {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}
+
+/* Cart Icon and Badge */
+.cart-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.cart-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #1A3CFF;
+    color: white;
+    border-radius: 50%;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+/* Quantity Selector */
+.quantity-selector .btn-outline-secondary {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    background-color: var(--primary-color);
+}
+
+.quantity-selector .btn-outline-secondary:hover {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}
+
+.quantity-selector .form-control {
+    max-width: 100px;
+}
+
+/* Product Page Image and Card Alignment */
+.product-image {
+    width: 100%;
+    height: 500px; /* Fixed height to match card-body */
+    object-fit: cover; /* Ensure image scales properly */
+}
+
+/* Add to Cart Button Hover Effect */
+.add-to-cart-btn {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.add-to-cart-btn:hover {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+}
+
+/* Welcome Banner Full Screen */
+.welcome-banner.full-screen {
+    min-height: calc(100vh - 56px); /* Subtract navbar height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Admin Forms */
+.form-control.bg-dark,
+.form-select.bg-dark {
+    background-color: #1A1A1A;
+    border-color: var(--accent-color);
+    color: var(--secondary-color);
+}
+
+.form-control.bg-dark:focus,
+.form-select.bg-dark:focus {
+    background-color: #1A1A1A;
+    border-color: var(--accent-color);
+    color: var(--secondary-color);
+    box-shadow: 0 0 0 0.2rem rgba(192, 192, 192, 0.25);
+}
+
+.form-check-input:checked {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+/* Hero Section */
+.hero {
+    height: 80vh;
+    background: url('../static/images/hero-bg.jpg') no-repeat center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.btn {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    padding: 12px 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    border: none;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    background-color: var(--secondary-color);
+}
+
+/* Welcome Banner */
+/* .welcome-banner {
+    background-color: var(--primary-color);
+    border-bottom: 1px solid var(--accent-color);
+    padding: 40px 20px;
+} */
+
+.welcome-banner h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.welcome-banner p {
+    font-size: 18px;
+    color: #B0B0B0;
+    margin-bottom: 30px;
+}
+
+.banner-buttons .btn-primary {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+}
+
+.banner-buttons .btn-primary:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Content Container */
+.content {
+    padding: 40px 0;
+}
+
+/* Product Grid */
+.product-grid {
+    padding: 50px 0;
+}
+
+.product-grid h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 36px;
+    margin-bottom: 40px;
+}
+
+.product-card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+}
+
+.product-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.product-card .card-body {
+    padding: 1.5rem;
+}
+
+.product-card .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.product-card .card-text {
+    color: #6B7280;
+    margin-bottom: 1rem;
+}
+
+.eco-badge {
+    background-color: #4A4A4A;
+    color: var(--secondary-color);
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.price {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    color: var(--accent-color);
+    display: block;
+    margin-bottom: 15px;
+}
+
+/* Footer */
+footer {
+    background-color: #1A1A1A;
+    color: #FFFFFF;
+    padding: 2rem 0;
+    margin-top: 4rem;
+}
+
+footer p {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.social-links a {
+    color: #FFFFFF;
+    margin: 0 0.5rem;
+    transition: color 0.2s ease;
+}
+
+.social-links a:hover {
+    color: #1A3CFF;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 0.5rem;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: #1A1A1A;
+}
+
+.dropdown-item:hover {
+    background-color: #F5F6FF;
+    color: #1A3CFF;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .welcome-banner h2 {
+        font-size: 28px;
+    }
+
+    .welcome-banner p {
+        font-size: 16px;
+    }
+
+    .product-grid h2 {
+        font-size: 28px;
+    }
+
+    .product-card img {
+        height: 200px;
+    }
+
+    .product-image {
+        height: 300px; /* Adjust for smaller screens */
+    }
+
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    .table th, .table td {
+        padding: 0.5rem;
+    }
+
+    .btn {
+        padding: 0.4rem 1rem;
+    }
+
+    .container {
+        padding: 1rem;
+    }
+}

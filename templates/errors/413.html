@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}413 - File Too Large{% endblock %}
+{% block content %}
+<div class="container py-5 text-center">
+    <h1 class="display-1">413</h1>
+    <h2 class="mb-4">File Too Large</h2>
+    <p class="lead">The file you are trying to upload exceeds the maximum allowed size.</p>
+    <a href="{{ url_for('home') }}" class="btn btn-dark-grey">Return to Home</a>
+</div>
+{% endblock %} 

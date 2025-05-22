@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Home - XOXO By SLOG{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero">
+    <div class="hero-content text-center text-white">
+        <h1>Welcome to XOXO By SLOG</h1>
+        <p>Discover our latest collection of sustainable fashion</p>
+        <a href="{{ url_for('shop') }}" class="btn">Shop Now</a>
+        <a href="https://www.google.com/search?q=XOXO by slog" class="btn btn-outline-dark-grey mx-2">Visit Our Store</a>
+    </div>
+</div>
+
+<!-- Featured Products Section -->
+<div class="product-grid">
+    <div class="container">
+        <h2 class="text-center mb-5">Featured Products</h2>
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="product-card">
+                    {% if product.images %}
+                    <img src="{{ url_for('static', filename='images/' + product.images[0].image_filename) }}" alt="{{ product.name }}" class="card-img-top">
+                    {% endif %}
+                    <div class="card-body">
+                        
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description[:100] }}...</p>
+                        <span class="price">${{ "%.2f"|format(product.price) }}</span>
+                        <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn btn-primary w-100">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Welcome Banner -->
+<div class="welcome-banner full-screen">
+    <div class="container text-center">
+        <h2>Sustainable Fashion for Everyone</h2>
+        <p>Join us in our mission to create beautiful, eco-friendly clothing that makes a difference.</p>
+        <div class="banner-buttons">
+            <a href="{{ url_for('about') }}" class="btn btn-primary me-3">Learn More</a>
+            <a href="{{ url_for('shop') }}" class="btn btn-outline-primary">Shop Collection</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

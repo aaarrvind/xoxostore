@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - XOXO By SLOG{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto text-center">
+            <h1 class="mb-4">About XOXO By SLOG</h1>
+            <p class="lead mb-5">We are passionate about creating sustainable fashion that makes a difference.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <img src="{{ url_for('static', filename='images/about-image.jpg') }}" alt="About XOXO By SLOG" class="img-fluid rounded">
+        </div>
+        <div class="col-md-6">
+            <h2 class="mb-4">Our Story</h2>
+            <p>XOXO By SLOG was founded with a vision to create beautiful, sustainable fashion that doesn't compromise on style or ethics. We believe in creating clothing that not only looks good but also does good for our planet and its people.</p>
+            <p>Our journey began with a simple idea: to make sustainable fashion accessible to everyone. Today, we're proud to offer a wide range of eco-friendly clothing options that are both stylish and sustainable.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-leaf fa-3x mb-3 text-primary"></i>
+                    <h3 class="card-title">Sustainable Materials</h3>
+                    <p class="card-text">We use eco-friendly materials and sustainable production methods to minimize our environmental impact.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-heart fa-3x mb-3 text-primary"></i>
+                    <h3 class="card-title">Ethical Production</h3>
+                    <p class="card-text">Our products are made in facilities that ensure fair wages and safe working conditions for all workers.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-recycle fa-3x mb-3 text-primary"></i>
+                    <h3 class="card-title">Circular Fashion</h3>
+                    <p class="card-text">We promote circular fashion by designing durable products and offering recycling programs.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 mx-auto text-center">
+            <h2 class="mb-4">Our Mission</h2>
+            <p class="lead">To revolutionize the fashion industry by creating sustainable, ethical, and beautiful clothing that empowers both our customers and the planet.</p>
+            <a href="{{ url_for('shop') }}" class="btn btn-primary mt-4">Shop Our Collection</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

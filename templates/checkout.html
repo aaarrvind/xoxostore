@@ -1,0 +1,169 @@
+<!-- templates/checkout.html -->
+{% extends "base.html" %}
+{% block title %}Checkout - XOXO By SLOG{% endblock %}
+{% block content %}
+<style>
+    .checkout-section {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+        padding: 2.5rem 2rem;
+        margin-bottom: 2rem;
+    }
+    .checkout-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        letter-spacing: -1px;
+    }
+    .order-summary-card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        background: #fafbfc;
+    }
+    .order-summary-card th, .order-summary-card td {
+        vertical-align: middle;
+    }
+    .order-summary-total {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #1a1a1a;
+    }
+    .payment-breakdown-pro {
+        background: #f0f6ff;
+        border-left: 4px solid #007bff;
+        border-radius: 8px;
+        padding: 1rem 1.5rem;
+        margin-top: 1.5rem;
+    }
+    .form-section-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: #007bff;
+        letter-spacing: 0.5px;
+    }
+    .checkout-btn-pro {
+        font-size: 1.15rem;
+        font-weight: 600;
+        padding: 0.75rem 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,123,255,0.08);
+    }
+    @media (max-width: 991px) {
+        .checkout-section { padding: 1.5rem 0.5rem; }
+    }
+</style>
+<div class="container py-5">
+    <div class="checkout-title text-center mb-5">Checkout</div>
+    {% for message in get_flashed_messages(with_categories=true) %}
+        <div class="alert alert-{{ message[0] }}" role="alert">{{ message[1] }}</div>
+    {% endfor %}
+    <div class="row g-4 justify-content-center">
+        <!-- Left: Order Summary -->
+        <div class="col-lg-5">
+            <div class="checkout-section order-summary-card">
+                <div class="form-section-title mb-3"><i class="fas fa-box"></i> Order Summary</div>
+                <div class="table-responsive mb-3">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Size</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart_items %}
+                            <tr>
+                                <td>{{ item.product.name }}</td>
+                                <td>{{ item.size }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>₹{{ "%.2f"|format(item.product.price) }}</td>
+                                <td>₹{{ "%.2f"|format(item.item_total) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-between align-items-center order-summary-total mb-2">
+                    <span>Subtotal</span>
+                    <span>₹{{ "%.2f"|format(total_price) }}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Shipping</span>
+                    <span class="text-success">Free</span>
+                </div>
+                <div class="payment-breakdown-pro">
+                    <div class="form-section-title mb-2"><i class="fas fa-wallet"></i> Payment Breakdown (COD)</div>
+                    <div class="d-flex justify-content-between mb-1">
+                        <span>Advance Payment:</span>
+                        <span class="fw-bold text-success">₹200.00</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-1">
+                        <span>Remaining Amount:</span>
+                        <span class="fw-bold text-warning">₹{{ "%.2f"|format(total_price - 200) }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <strong>Total Amount:</strong>
+                        <strong class="text-primary">₹{{ "%.2f"|format(total_price) }}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Right: Address & Payment -->
+        <div class="col-lg-5">
+            <div class="checkout-section">
+                <form method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="form-section-title"><i class="fas fa-map-marker-alt"></i> Delivery Address</div>
+                    <div class="mb-3">
+                        <label for="delivery_address" class="form-label">Address</label>
+                        <textarea class="form-control" id="delivery_address" name="delivery_address" rows="3" required></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="delivery_city" class="form-label">City</label>
+                            <input type="text" class="form-control" id="delivery_city" name="delivery_city" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="delivery_state" class="form-label">State</label>
+                            <input type="text" class="form-control" id="delivery_state" name="delivery_state" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="delivery_pincode" class="form-label">Pincode</label>
+                            <input type="text" class="form-control" id="delivery_pincode" name="delivery_pincode" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="delivery_phone" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="delivery_phone" name="delivery_phone" required>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <div class="form-section-title"><i class="fas fa-credit-card"></i> Payment Method</div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="payment_method" id="cod" value="COD" checked>
+                        <label class="form-check-label" for="cod">
+                            Cash on Delivery
+                            <small class="d-block text-muted">Pay ₹200 now, remaining at delivery</small>
+                        </label>
+                    </div>
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="radio" name="payment_method" id="online" value="Online">
+                        <label class="form-check-label" for="online">Pay Online (Test)</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary checkout-btn-pro w-100">Place Order</button>
+                </form>
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('cart') }}" class="btn btn-link"> Back to Cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

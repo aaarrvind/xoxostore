@@ -1,0 +1,34 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}Admin Login - XOXO By SLOG{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-4">Admin Login</h1>
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% endif %}
+    <div class="row">
+        <div class="col-lg-6 mx-auto">
+            <div class="card bg-dark-grey text-beige border-dark-grey">
+                <div class="card-body">
+                    <form method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control bg-dark-grey text-beige" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control bg-dark-grey text-beige" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-dark-grey w-100">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

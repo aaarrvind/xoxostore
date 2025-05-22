@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} - XOXO By SLOG{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Product Images -->
+        <div class="col-md-6 mb-4">
+            {% if product.images %}
+            <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for image in product.images %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                        <img src="{{ url_for('static', filename='images/' + image.image_filename) }}" class="d-block w-100 product-image" alt="{{ product.name }}">
+                    </div>
+                    {% endfor %}
+                </div>
+                {% if product.images|length > 1 %}
+                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Product Details -->
+        <div class="col-md-6">
+            <h1 class="mb-3">{{ product.name }}</h1>
+            <span class="eco-badge mb-3">Eco-Friendly</span>
+            <p class="mb-4">{{ product.description }}</p>
+            <h3 class="price mb-4">${{ "%.2f"|format(product.price) }}</h3>
+
+            <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST" class="mb-4">
+                <div class="mb-3">
+                    <label for="size" class="form-label">Size</label>
+                    <select class="form-select" id="size" name="size" required>
+                        <option value="">Select Size</option>
+                        {% if product.stock_s > 0 %}
+                        <option value="S">Small ({{ product.stock_s }} available)</option>
+                        {% endif %}
+                        {% if product.stock_m > 0 %}
+                        <option value="M">Medium ({{ product.stock_m }} available)</option>
+                        {% endif %}
+                        {% if product.stock_l > 0 %}
+                        <option value="L">Large ({{ product.stock_l }} available)</option>
+                        {% endif %}
+                        {% if product.stock_xl > 0 %}
+                        <option value="XL">X-Large ({{ product.stock_xl }} available)</option>
+                        {% endif %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="quantity" class="form-label">Quantity</label>
+                    <div class="quantity-selector">
+                        <button type="button" class="btn btn-outline-secondary" onclick="decrementQuantity()">-</button>
+                        <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" max="10" required>
+                        <button type="button" class="btn btn-outline-secondary" onclick="incrementQuantity()">+</button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Add to Cart</button>
+            </form>
+
+            <!-- Product Features -->
+            <div class="mt-4">
+                <h4>Product Features</h4>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-check me-2"></i> Sustainable Materials</li>
+                    <li><i class="fas fa-check me-2"></i> Ethically Made</li>
+                    <li><i class="fas fa-check me-2"></i> Free Shipping</li>
+                    <li><i class="fas fa-check me-2"></i> 30-Day Returns</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function incrementQuantity() {
+    var input = document.getElementById('quantity');
+    var value = parseInt(input.value);
+    if (value < 10) {
+        input.value = value + 1;
+    }
+}
+
+function decrementQuantity() {
+    var input = document.getElementById('quantity');
+    var value = parseInt(input.value);
+    if (value > 1) {
+        input.value = value - 1;
+    }
+}
+</script>
+{% endblock %} 

@@ -1,0 +1,111 @@
+/* Deep Vintage Mood Color Scheme */
+:root {
+    --vintage-light-beige: #FBE9D0;
+    --vintage-dark-teal: #244855;
+    --vintage-red-orange: #E64833;
+    --vintage-brown: #874F41;
+    --vintage-muted-teal: #90AEAD;
+}
+
+/* Global Styles */
+body {
+    background-color: var(--vintage-light-beige);
+    color: var(--vintage-dark-teal);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--vintage-brown);
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--vintage-muted-teal);
+}
+.navbar-brand, .nav-link {
+    color: var(--vintage-dark-teal) !important;
+}
+.nav-link:hover {
+    color: var(--vintage-red-orange) !important;
+}
+.dropdown-menu {
+    background-color: var(--vintage-muted-teal);
+}
+.dropdown-item {
+    color: var(--vintage-dark-teal);
+}
+.dropdown-item:hover {
+    background-color: var(--vintage-light-beige);
+    color: var(--vintage-red-orange);
+}
+
+/* Background Classes */
+.bg-vintage-muted-teal {
+    background-color: var(--vintage-muted-teal) !important;
+}
+.bg-vintage-light-beige {
+    background-color: var(--vintage-light-beige) !important;
+}
+
+/* Text Classes */
+.text-vintage-dark-teal {
+    color: var(--vintage-dark-teal) !important;
+}
+.text-vintage-brown {
+    color: var(--vintage-brown) !important;
+}
+
+/* Border Classes */
+.border-vintage-brown {
+    border-color: var(--vintage-brown) !important;
+}
+
+/* Button Classes */
+.btn-vintage-red-orange {
+    background-color: var(--vintage-red-orange);
+    border-color: var(--vintage-red-orange);
+    color: #fff;
+}
+.btn-vintage-red-orange:hover {
+    background-color: #d43f2c; /* Slightly darker shade for hover */
+    border-color: #d43f2c;
+    color: #fff;
+}
+.btn-outline-vintage-muted-teal {
+    border-color: var(--vintage-muted-teal);
+    color: var(--vintage-muted-teal);
+}
+.btn-outline-vintage-muted-teal:hover {
+    background-color: var(--vintage-muted-teal);
+    color: var(--vintage-dark-teal);
+}
+
+/* Alerts */
+.alert-success {
+    background-color: #b0c4c3; /* Lightened muted teal */
+    color: var(--vintage-dark-teal);
+}
+.alert-danger, .alert-warning {
+    background-color: #f5a79b; /* Lightened red-orange */
+    color: var(--vintage-dark-teal);
+}
+
+/* Footer */
+footer {
+    background-color: var(--vintage-muted-teal);
+}
+footer p, footer a {
+    color: var(--vintage-dark-teal);
+}
+footer a:hover {
+    color: var(--vintage-red-orange);
+}
+
+/* Cart Icon and Badge */
+.cart-icon svg {
+    stroke: var(--vintage-dark-teal);
+}
+.cart-badge {
+    background-color: var(--vintage-red-orange);
+    color: #fff;
+}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Shopping Cart - XOXO By SLOG{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-5">Shopping Cart</h1>
+
+    {% if cart_items %}
+        <div class="row">
+        <!-- Cart Items -->
+            <div class="col-md-8">
+                {% for item in cart_items %}
+            <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                {% if item.product.images %}
+                        <img src="{{ url_for('static', filename='images/' + item.product.images[0].image_filename) }}" class="img-fluid rounded-start" alt="{{ item.product.name }}">
+                                {% endif %}
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ item.product.name }}</h5>
+                            <p class="card-text">
+                                Size: {{ item.size }}<br>
+                                Quantity: {{ item.quantity }}<br>
+                                Price: ${{ "%.2f"|format(item.product.price) }}
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price">Total: ${{ "%.2f"|format(item.product.price * item.quantity) }}</span>
+                                <form action="{{ url_for('remove_from_cart', product_id=item.product.id) }}" method="POST" class="d-inline">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <input type="hidden" name="size" value="{{ item.size }}">
+                                    <button type="submit" class="btn btn-outline-danger">
+                                        <i class="fas fa-trash"></i> Remove
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Order Summary -->
+            <div class="col-md-4">
+            <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Order Summary</h5>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Subtotal</span>
+                        <span>${{ "%.2f"|format(total_price) }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Shipping</span>
+                        <span>Free</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-3">
+                        <strong>Total</strong>
+                        <strong>${{ "%.2f"|format(total_price) }}</strong>
+                    </div>
+                    <a href="{{ url_for('checkout') }}" class="btn btn-primary w-100">Proceed to Checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="text-center">
+        <i class="fas fa-shopping-cart fa-3x mb-3"></i>
+        <h3>Your cart is empty</h3>
+        <p class="mb-4">Looks like you haven't added any items to your cart yet.</p>
+        <a href="{{ url_for('shop') }}" class="btn btn-primary">Continue Shopping</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

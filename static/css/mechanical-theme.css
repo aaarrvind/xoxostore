@@ -1,0 +1,114 @@
+/* Mechanical and Floaty Color Scheme */
+:root {
+    --mechanical-very-dark-gray: #141619;
+    --mechanical-dark-gray: #2C2E3A;
+    --mechanical-navy: #050A44;
+    --mechanical-bright-blue: #0A21C0;
+    --mechanical-light-gray: #B3B4BD;
+}
+
+/* Global Styles */
+body {
+    background-color: var(--mechanical-light-gray);
+    color: var(--mechanical-very-dark-gray);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--mechanical-bright-blue);
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--mechanical-dark-gray);
+}
+.navbar-brand, .nav-link {
+    color: var(--mechanical-light-gray) !important;
+}
+.nav-link:hover {
+    color: var(--mechanical-bright-blue) !important;
+}
+.dropdown-menu {
+    background-color: var(--mechanical-dark-gray);
+}
+.dropdown-item {
+    color: var(--mechanical-light-gray);
+}
+.dropdown-item:hover {
+    background-color: var(--mechanical-light-gray);
+    color: var(--mechanical-bright-blue);
+}
+
+/* Background Classes */
+.bg-mechanical-dark-gray {
+    background-color: var(--mechanical-very-dark-gray) !important;
+}
+.bg-mechanical-very-dark-gray {
+    background-color: var(--mechanical-light-gray) !important;
+}
+
+/* Text Classes */
+.text-mechanical-dark-gray {
+    color: var(--mechanical-very-dark-gray) !important;
+}
+.text-mechanical-light-gray {
+    color: var(--mechanical-light-gray) !important;
+}
+.text-mechanical-bright-blue {
+    color: var(--mechanical-bright-blue) !important;
+}
+
+/* Border Classes */
+.border-mechanical-navy {
+    border-color: var(--mechanical-navy) !important;
+}
+
+/* Button Classes */
+.btn-mechanical-bright-blue {
+    background-color: var(--mechanical-bright-blue);
+    border-color: var(--mechanical-bright-blue);
+    color: #fff;
+}
+.btn-mechanical-bright-blue:hover {
+    background-color: #0819a3; /* Slightly darker shade for hover */
+    border-color: #0819a3;
+    color: #fff;
+}
+.btn-outline-mechanical-navy {
+    border-color: var(--mechanical-navy);
+    color: var(--mechanical-navy);
+}
+.btn-outline-mechanical-navy:hover {
+    background-color: var(--mechanical-navy);
+    color: var(--mechanical-light-gray);
+}
+
+/* Alerts */
+.alert-success {
+    background-color: #4a5cc5; /* Lightened bright blue */
+    color: var(--mechanical-light-gray);
+}
+.alert-danger, .alert-warning {
+    background-color: #3a4066; /* Lightened navy with a slight reddish tint */
+    color: var(--mechanical-light-gray);
+}
+
+/* Footer */
+footer {
+    background-color: var(--mechanical-dark-gray);
+}
+footer p, footer a {
+    color: var(--mechanical-light-gray);
+}
+footer a:hover {
+    color: var(--mechanical-bright-blue);
+}
+
+/* Cart Icon and Badge */
+.cart-icon svg {
+    stroke: var(--mechanical-light-gray);
+}
+.cart-badge {
+    background-color: var(--mechanical-bright-blue);
+    color: #fff;
+}

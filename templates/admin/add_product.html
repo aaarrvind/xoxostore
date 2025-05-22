@@ -1,0 +1,83 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}Add Product - WABStoreClone{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-4">Add New Product</h1>
+    <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control bg-dark text-white border-secondary" id="name" name="name" required>
+            <div class="invalid-feedback">Please enter a product name.</div>
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" step="0.01" class="form-control bg-dark text-white border-secondary" id="price" name="price" required>
+            <div class="invalid-feedback">Please enter a valid price.</div>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control bg-dark text-white border-secondary" id="description" name="description" rows="5" required></textarea>
+            <div class="invalid-feedback">Please enter a description.</div>
+        </div>
+        <div class="mb-3">
+            <label for="images" class="form-label">Images (Select multiple)</label>
+            <input type="file" class="form-control bg-dark text-white border-secondary" id="images" name="images" multiple accept="image/*">
+        </div>
+        <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select class="form-select bg-dark text-white border-secondary" id="category" name="category" required>
+                <option value="" disabled selected>Select a category</option>
+                <option value="tshirt">T-shirt</option>
+                <option value="shirt">Shirt</option>
+                <option value="accessories">Accessories</option>
+                <option value="jacket">Jacket</option>
+            </select>
+            <div class="invalid-feedback">Please select a category.</div>
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="is_featured" name="is_featured">
+            <label class="form-check-label" for="is_featured">Feature this product on homepage</label>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="stock_s" class="form-label">Stock (S)</label>
+                <input type="number" class="form-control bg-dark text-white border-secondary" id="stock_s" name="stock_s" value="0" min="0">
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="stock_m" class="form-label">Stock (M)</label>
+                <input type="number" class="form-control bg-dark text-white border-secondary" id="stock_m" name="stock_m" value="0" min="0">
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="stock_l" class="form-label">Stock (L)</label>
+                <input type="number" class="form-control bg-dark text-white border-secondary" id="stock_l" name="stock_l" value="0" min="0">
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="stock_xl" class="form-label">Stock (XL)</label>
+                <input type="number" class="form-control bg-dark text-white border-secondary" id="stock_xl" name="stock_xl" value="0" min="0">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Product</button>
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary ms-2">Back to Dashboard</a>
+    </form>
+</div>
+
+<script>
+// Bootstrap form validation
+(function () {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+})();
+</script>
+{% endblock %}
