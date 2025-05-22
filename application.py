@@ -28,7 +28,6 @@ from email_utils import (
 from flask_mail import Mail
 from flask_mail import Message
 import redis
-from flask_limiter.storage import RedisStorage
 
 load_dotenv()
 
