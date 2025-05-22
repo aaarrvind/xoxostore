@@ -39,4 +39,5 @@ services:
   - type: redis
     name: xoxo-store-redis
     plan: free
-    maxmemoryPolicy: noeviction 
+    maxmemoryPolicy: noeviction
+    ipAllowList: [] 

@@ -39,17 +39,32 @@ migrate = Migrate(app, db)
 mail = Mail(app)
 
 # Configure Redis for rate limiting
-redis_client = redis.Redis.from_url(
-    os.getenv('REDIS_URL', 'redis://localhost:6379/0'),
-    decode_responses=True,
-    socket_connect_timeout=30
-)
+redis_url = os.getenv('REDIS_URL')
+redis_client = None
+
+try:
+    if redis_url:
+        redis_client = redis.Redis.from_url(
+            redis_url,
+            decode_responses=True,
+            socket_connect_timeout=30,
+            socket_timeout=30,
+            retry_on_timeout=True
+        )
+        # Test the connection
+        redis_client.ping()
+        app.logger.info("Successfully connected to Redis")
+    else:
+        app.logger.warning("No REDIS_URL provided, using memory storage")
+except Exception as e:
+    app.logger.error(f"Failed to connect to Redis: {str(e)}")
+    redis_client = None
 
 # Configure Flask-Limiter
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
-    storage_uri=os.getenv('REDIS_URL', 'redis://localhost:6379/0'),
+    storage_uri=redis_url if redis_client else "memory://",
     default_limits=["200 per day", "50 per hour"]
 )
 
