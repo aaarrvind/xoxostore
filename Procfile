@@ -1,1 +1,1 @@
-web: gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 120 --access-logfile - --error-logfile - application:app 
+web: gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 300 --worker-class gevent --worker-connections 1000 --access-logfile - --error-logfile - --log-level debug application:app 
